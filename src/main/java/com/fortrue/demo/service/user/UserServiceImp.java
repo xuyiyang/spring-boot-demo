@@ -64,7 +64,7 @@ public class UserServiceImp implements UserService{
         Long totalAmount = userMapper.count(so);
         List<UserVO> result = new ArrayList<>();
         List<User> list = userMapper.getPageList(so);
-        if(list != null || !list.isEmpty()){
+        if(list != null && !list.isEmpty()){
             for(User user : list){
                 result.add(new UserVO().setUser(user));
             }

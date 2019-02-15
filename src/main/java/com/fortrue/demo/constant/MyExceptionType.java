@@ -9,7 +9,7 @@ public enum MyExceptionType {
         this.errorType = errorType;
         this.errorNote = errorNote;
     }
-    public String MergeCodeNote(){
+    public String mergeCodeNote(){
         return this.errorType + this.errorNote;
     }
 }

@@ -59,9 +59,6 @@ public class BaseModel implements Serializable {
         return this;
     }
     public static final boolean validateId(BaseModel model){
-        if(model == null || model.getId() == null || model.getId() <= 0){
-            return false;
-        }
-        return true;
+        return model != null && model.getId() != null && model.getId() > 0;
     }
 }

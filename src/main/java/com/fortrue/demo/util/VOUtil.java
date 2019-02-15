@@ -5,6 +5,8 @@ import com.fortrue.demo.vo.ResultVO;
 import java.util.List;
 
 public class VOUtil {
+    private VOUtil(){}
+
     public static final <T> ResultVO<T> genResultVO(T data){
         ResultVO<T> resultVO = new ResultVO<>();
         return resultVO.setSuccess(true).setSingleFlag(true).setVo(data);
