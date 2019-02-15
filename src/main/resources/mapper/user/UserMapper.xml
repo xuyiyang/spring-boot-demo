@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fortrue.demo.mapper.user.UserMapper">
+    <insert id="insert" parameterType="com.fortrue.demo.model.user.User" useGeneratedKeys="true" keyProperty="id">
+      insert into my_user
+      (
+      version,
+      createTime,
+      lastUpdateTime,
+      userName,
+      nickName,
+      activeFlag,
+      userType,
+      phone,
+      mail,
+      gender,
+      addr,
+      createTimeInt,
+      password
+      )
+      values
+      (
+      0,
+      SYSDATE(),
+      SYSDATE(),
+      #{userName,jdbcType=VARCHAR},
+      #{nickName,jdbcType=VARCHAR},
+      #{activeFlag,jdbcType=NUMERIC},
+      #{userType,jdbcType=VARCHAR},
+      #{phone,jdbcType=NUMERIC},
+      #{mail,jdbcType=VARCHAR},
+      #{gender,jdbcType=VARCHAR},
+      #{addr,jdbcType=VARCHAR},
+      #{createTimeInt,jdbcType=NUMERIC},
+      #{password,jdbcType=VARCHAR}
+      )
+    </insert>
+
+    <update id="updateNotNull" parameterType="com.fortrue.demo.model.user.User">
+        update my_user set
+        version = version + 1,
+        lastUpdateTime = SYSDATE()
+        <if test="userName != null">
+            ,userName = #{userName,jdbcType=VARCHAR}
+        </if>
+        <if test="nickName != null">
+            ,nickName = #{nickName,jdbcType=VARCHAR}
+        </if>
+        <if test="activeFlag != null">
+            ,activeFlag = #{activeFlag,jdbcType=NUMERIC}
+        </if>
+        <if test="userType != null">
+            ,userType = #{userType,jdbcType=VARCHAR}
+        </if>
+        <if test="phone != null">
+            ,phone = #{phone,jdbcType=NUMERIC}
+        </if>
+        <if test="mail != null">
+            ,mail = #{mail,jdbcType=VARCHAR}
+        </if>
+        <if test="gender != null">
+            ,gender = #{gender,jdbcType=VARCHAR}
+        </if>
+        <if test="addr != null">
+            ,addr = #{addr,jdbcType=VARCHAR}
+        </if>
+        <where>
+            id = #{id}
+            and version = #{version}
+        </where>
+    </update>
+
+    <update id="update" parameterType="com.fortrue.demo.model.user.User">
+        update my_user set
+        version = version + 1,
+        lastUpdateTime = SYSDATE(),
+        userName = #{userName,jdbcType=VARCHAR},
+        nickName = #{nickName,jdbcType=VARCHAR},
+        activeFlag = #{activeFlag,jdbcType=NUMERIC},
+        userType = #{userType,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=NUMERIC},
+        mail = #{mail,jdbcType=VARCHAR},
+        gender = #{gender,jdbcType=VARCHAR},
+        addr = #{addr,jdbcType=VARCHAR}
+        <where>
+            id = #{id}
+            and version = #{version}
+        </where>
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from my_user 
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <select id="get" parameterType="java.lang.Long" resultType="com.fortrue.demo.model.user.User">
+        select 
+          id,
+          version,
+          createTime,
+          lastUpdateTime,
+          userName,
+          nickName,
+          activeFlag,
+          userType,
+          phone,
+          mail,
+          gender,
+          addr,
+          createTimeInt
+        from my_user
+        <where>
+            id = #{id}
+        </where>
+    </select>
+    
+    <select id="count" resultType="java.lang.Long" parameterType="com.fortrue.demo.so.user.UserSO">
+        select count(*) from my_user
+        <include refid="whereSO" />
+    </select>
+
+    <select id="getPageList" resultType="com.fortrue.demo.model.user.User" parameterType="com.fortrue.demo.so.user.UserSO">
+        select
+        id,
+        version,
+        createTime,
+        lastUpdateTime,
+        userName,
+        nickName,
+        phone,
+        mail,
+        gender,
+        activeFlag,
+        userType,
+        addr
+        from my_user
+        <include refid="whereSO" />
+        limit #{startIndex}, #{numPerPage};
+    </select>
+
+    <sql id="whereSO">
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="ids != null">
+                and id in
+                <foreach item="item" index="index" collection="ids" open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startCreateTime != null">
+                <![CDATA[
+                and createTime >= #{startCreateTime}
+                ]]>
+            </if>
+            <if test="endCreateTime != null">
+                <![CDATA[
+                and createTime < #{endCreateTime}
+                ]]>
+            </if>
+            <if test="startCreateTimeInt != null and endCreateTimeInt != null">
+                and createTimeInt between #{startCreateTimeInt} and #{endCreateTimeInt}
+            </if>
+            <if test="userName != null">
+                and userName = #{userName}
+            </if>
+            <if test="nickName != null">
+                and nickName = #{nickName}
+            </if>
+            <if test="phone != null">
+                and phone = #{phone}
+            </if>
+            <if test="mail != null">
+                and mail = #{mail}
+            </if>
+            <if test="gender != null">
+                and gender = #{gender}
+            </if>
+            <if test="activeFlag != null">
+                and activeFlag = #{activeFlag}
+            </if>
+            <if test="userType != null">
+                and userType = #{userType}
+            </if>
+        </where>
+    </sql>
+
+    <update id="updatePass" parameterType="com.fortrue.demo.model.user.User">
+        update my_user set
+        version = version + 1,
+        lastUpdateTime = SYSDATE(),
+        password = #{password,jdbcType=VARCHAR}
+        <where>
+            id = #{id}
+            and version = #{version}
+        </where>
+    </update>
+
+    <select id="getPass" parameterType="java.lang.String" resultType="java.lang.String">
+      select password from my_user
+      <where>
+          userName = #{userName}
+      </where>
+    </select>
+
+</mapper>
