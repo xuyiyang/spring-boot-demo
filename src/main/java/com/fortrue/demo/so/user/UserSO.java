@@ -3,6 +3,7 @@ package com.fortrue.demo.so.user;
 import com.fortrue.demo.so.BaseSO;
 
 public class UserSO extends BaseSO {
+
     private String userName;
     private String nickName;
     private Long phone;

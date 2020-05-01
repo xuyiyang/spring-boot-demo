@@ -14,7 +14,7 @@ create table my_user
 	gender varchar(5) null,
 	addr varchar(50) null,
 	createTimeInt int not null,
-	password varchar(50) not null,
+	password varchar(255) null,
 	constraint my_user_phone_uindex
 		unique (phone),
 	constraint my_user_userName_uindex

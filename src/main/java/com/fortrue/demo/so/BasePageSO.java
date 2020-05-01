@@ -3,6 +3,7 @@ package com.fortrue.demo.so;
 import com.fortrue.demo.util.NumberUtil;
 
 public class BasePageSO {
+
     private Long pageNumber = 1L;
     private Long startIndex = 0L;
     private Long numPerPage = 50L;
